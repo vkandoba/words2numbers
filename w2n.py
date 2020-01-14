@@ -1,5 +1,6 @@
 tokens_config = {
-    'ноль': {'num': 0, 'level': 10},
+    'ноль': {'num': 0, 'level': 10},  # TODO: zero not allowed in complex numbers
+    # TODO: need to add tokens 'double zero' and 'truple zero'
     'один': {'num': 1, 'level': 1},
     'одна': {'num': 1, 'level': 1},
     'два': {'num': 2, 'level': 1},
@@ -12,6 +13,7 @@ tokens_config = {
     'восемь': {'num': 8, 'level': 1},
     'девять': {'num': 9, 'level': 1},
     "десять": {'num': 10, 'level': 1},
+    # TODO: there are not num tokens from 11 to 19
     "двадцать": {'num': 20, 'level': 2},
     "тридцать": {'num': 30, 'level': 2},
     "сорок": {'num': 40, 'level': 2},
