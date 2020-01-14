@@ -5,14 +5,13 @@ from w2n import make_num, make_num_greedy, make_num_one_greedy
 
 class TestMakeNumbers(TestCase):
     def test_make_with_empty(self):
-        self.assertEqual([], make_num(''))
+        self.assertEqual('', make_num(''))
 
     def test_make_with_spaces(self):
-        self.assertEqual([1, 2], make_num('   один    два   '))
+        self.assertEqual('12', make_num('   один    два   '))
 
     def test_make_digits(self):
-        self.assertEqual([9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-                         make_num('девять восемь семь шесть пять четыре три два один ноль'))
+        self.assertEqual('9876543210', make_num('девять восемь семь шесть пять четыре три два один ноль'))
 
     def test_make_greedy(self):
         self.assertEqual((245, []), make_num_one_greedy(['двести', 'сорок', 'пять'], 3))

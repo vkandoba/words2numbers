@@ -34,7 +34,8 @@ tokens_config = {
 
 def make_num(text):
     words = text.split()
-    return [tokens_config[w]['num'] if w in tokens_config else w for w in words]
+    numbers = [str(tokens_config[w]['num']) if w in tokens_config else w for w in words]
+    return ''.join(numbers)
 
 
 def make_num_greedy(words):
