@@ -19,6 +19,9 @@ class TestMakeNumbers(TestCase):
     def test_make_num_with_zero(self):
         self.assertEqual('5000045', make_num('пятьсот ноль ноль четыре пять'))
 
+    def test_make_num_with_two_level_final(self):
+        self.assertEqual('5115', make_num('пятьсот одиннадцать пять'))
+
     def test_make_num_with_no_numerical_words(self):
         self.assertEqual('222641', make_num('номер двести двадцать два добавить шестьсот сорок один'))
 
@@ -50,3 +53,9 @@ class TestMakeNumVersions(TestCase):
     def test_make_versions(self):
         self.assertEqual(['24552', '245502', '240552', '2405502', '2004552', '20045502', '20040552', '200405502'],
                          make_num_versions('двести сорок пять пятьдесят два'))
+
+    def test_test_make_versions_with_zero(self):
+        self.assertEqual(['5000115'], make_num_versions('пятьсот ноль одиннадцать пять'))
+
+    def test_test_make_versions_with_two_level_final(self):
+        self.assertEqual(['5115', '500115'], make_num_versions('пятьсот одиннадцать пять'))
