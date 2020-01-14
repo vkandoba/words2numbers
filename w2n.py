@@ -47,16 +47,43 @@ def make_num(text):
     return ''.join([str(num) for num in numbers])
 
 
+def make_num_versions(text):
+    words = text.split()
+    versions = make_num_versions_internal(words)
+    return [''.join([str(num) for num in numbers]) for numbers in versions]
+
+
+def make_num_versions_internal(words):
+    if not words:
+        return [[]]
+
+    w = words[0]
+    if w not in tokens_config:
+        return[[make_num_versions_internal(words[1:])]]
+
+    num_token = tokens_config[w]
+    num_versions = set()
+    versions = []
+
+    for d in range(num_token['level'], 0, -1):
+        num, rest = make_num_one_greedy(words, num_token['level'], d)
+        if num not in num_versions:
+            num_versions.add(num)
+            versions.extend([[num] + v for v in make_num_versions_internal(rest)])
+    return versions
+
+
 def make_num_greedy(words):
-    return make_num_one_greedy(words, tokens_config[words[0]]['level'])
+    level = tokens_config[words[0]]['level']
+    return make_num_one_greedy(words, level, level)
 
 
-def make_num_one_greedy(words, level):
-    if not words or words[0] not in tokens_config:
+def make_num_one_greedy(words, level, depth):
+    if not words or words[0] not in tokens_config or depth == 0:
         return 0, words
     num_token = tokens_config[words[0]]
     if num_token['level'] > level:
         return 0, words
     else:
-        acc, rest = make_num_one_greedy(words[1:], level - 1)
+        acc, rest = make_num_one_greedy(words[1:], level - 1, depth - 1)
         return acc + num_token['num'], rest
