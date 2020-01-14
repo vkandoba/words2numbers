@@ -38,14 +38,15 @@ def make_num(text):
 
 
 def make_num_greedy(words):
-    return make_num_greedy_internal(words, tokens_config[words[0]]['level'])
+    return make_num_one_greedy(words, tokens_config[words[0]]['level'])
 
 
-def make_num_greedy_internal(words, level):
+def make_num_one_greedy(words, level):
     if not words or words[0] not in tokens_config:
-        return 0;
+        return 0, words
     num_token = tokens_config[words[0]]
     if num_token['level'] > level:
-        return 0
+        return 0, words
     else:
-        return num_token['num'] + make_num_greedy_internal(words[1:], level-1)
+        acc, rest = make_num_one_greedy(words[1:], level - 1)
+        return acc + num_token['num'], rest
