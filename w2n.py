@@ -1,6 +1,6 @@
 tokens_config = {
-    'ноль': {'num': 0, 'level': 10},  # TODO: zero not allowed in complex numbers
-    # TODO: need to add tokens 'double zero' and 'truple zero'
+    'ноль': {'num': 0, 'level': 1},  # TODO: zero not allowed in complex numbers
+    # TODO: need to add tokens 'double zero' and 'triple zero'
     'один': {'num': 1, 'level': 1},
     'одна': {'num': 1, 'level': 1},
     'два': {'num': 2, 'level': 1},
@@ -47,6 +47,7 @@ def make_num(text):
     return ''.join([str(num) for num in numbers])
 
 
+# TODO: add limitation by length or prefix condition
 def make_num_versions(text):
     words = text.split()
     versions = make_num_versions_internal(words)
@@ -79,11 +80,11 @@ def make_num_greedy(words):
 
 
 def make_num_one_greedy(words, level, depth):
-    if not words or words[0] not in tokens_config or depth == 0:
+    if not words or words[0] not in tokens_config or depth == 0 or level == 0:
         return 0, words
     num_token = tokens_config[words[0]]
     if num_token['level'] > level:
         return 0, words
     else:
-        acc, rest = make_num_one_greedy(words[1:], level - 1, depth - 1)
+        acc, rest = make_num_one_greedy(words[1:], num_token['level'] - 1, depth - 1)
         return acc + num_token['num'], rest

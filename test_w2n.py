@@ -14,7 +14,7 @@ class TestMakeNumbers(TestCase):
         self.assertEqual('9876543210', make_num('девять восемь семь шесть пять четыре три два один ноль'))
 
     def test_make_num(self):
-        self.assertEqual('22264152', make_num('двести двадцать два шестьсот сорок один пятьдесят два'))
+        self.assertEqual('5076078845', make_num('пятьсот семь шестьсот семь восемь восемь четыре пять'))
 
     def test_make_num_with_no_numerical_words(self):
         self.assertEqual('222641', make_num('номер двести двадцать два добавить шестьсот сорок один'))
