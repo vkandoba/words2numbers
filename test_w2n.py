@@ -16,6 +16,9 @@ class TestMakeNumbers(TestCase):
     def test_make_num(self):
         self.assertEqual('5076078845', make_num('пятьсот семь шестьсот семь восемь восемь четыре пять'))
 
+    def test_make_num_with_zero(self):
+        self.assertEqual('5000045', make_num('пятьсот ноль ноль четыре пять'))
+
     def test_make_num_with_no_numerical_words(self):
         self.assertEqual('222641', make_num('номер двести двадцать два добавить шестьсот сорок один'))
 
@@ -26,8 +29,8 @@ class TestMakeNumbers(TestCase):
         self.assertEqual((245, []), make_num_one_greedy(['двести', 'сорок', 'пять'], 3, 3))
 
     def test_make_one_partial(self):
-        self.assertEqual((200, []), make_num_one_greedy(['двести', 'сорок', 'пять'], 3, 1))
-        self.assertEqual((240, []), make_num_one_greedy(['двести', 'сорок', 'пять'], 3, 2))
+        self.assertEqual((200, ['сорок', 'пять']), make_num_one_greedy(['двести', 'сорок', 'пять'], 3, 1))
+        self.assertEqual((240, ['пять']), make_num_one_greedy(['двести', 'сорок', 'пять'], 3, 2))
 
     def test_make_one_greedy_with_another_num_at_end(self):
         self.assertEqual((1, ['два']), make_num_greedy(['один', 'два']))
