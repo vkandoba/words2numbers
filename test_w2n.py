@@ -1,5 +1,4 @@
 from unittest import TestCase
-
 from w2n import make_num, make_num_greedy, make_num_one_greedy, make_num_versions
 
 
@@ -23,7 +22,7 @@ class TestMakeNumbers(TestCase):
         self.assertEqual('5115', make_num('пятьсот одиннадцать пять'))
 
     def test_make_num_with_no_numerical_words(self):
-        self.assertEqual('222641', make_num('номер двести двадцать два добавить шестьсот сорок один'))
+        self.assertEqual('222641', make_num('номер двести двадцать два добавить шестьсот сорок и один'))
 
     def test_make_one_greedy(self):
         self.assertEqual((5, []), make_num_one_greedy(['пять'], 1, 1))
@@ -56,6 +55,9 @@ class TestMakeNumVersions(TestCase):
 
     def test_test_make_versions_with_zero(self):
         self.assertEqual(['5000115'], make_num_versions('пятьсот ноль одиннадцать пять'))
+
+    def test_test_make_versions_no_numerical_words(self):
+        self.assertEqual(['240', '20040'], make_num_versions('номер двести и сорок закончил'))
 
     def test_test_make_versions_with_two_level_final(self):
         self.assertEqual(['5115', '500115'], make_num_versions('пятьсот одиннадцать пять'))

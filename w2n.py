@@ -43,35 +43,32 @@ tokens_config = {
 
 
 def make_num(text):
-    words = text.split()
+    words =  filter_tokens(text.split())
     numbers = []
     while words:
-        if words[0] in tokens_config:
-            token = tokens_config[words[0]]
-            num, words = make_num_greedy(words) if token['type'] != 'self' else (token['num'], words[1:])
-            numbers.append(num)
-        else:
-            words.pop(0)
+        token = tokens_config[words[0]]
+        num, words = make_num_greedy(words) if token['type'] != 'self' else (token['num'], words[1:])
+        numbers.append(num)
 
     return ''.join([str(num) for num in numbers])
 
 
 # TODO: add limitation by length or prefix condition
 def make_num_versions(text):
-    words = text.split()
+    words =  filter_tokens(text.split())
     versions = make_num_versions_internal(words)
     return [''.join([str(num) for num in numbers]) for numbers in versions]
+
+
+def filter_tokens(words):
+    return [w for w in words if w in tokens_config]
 
 
 def make_num_versions_internal(words):
     if not words:
         return [[]]
 
-    w = words[0]
-    if w not in tokens_config:
-        return[[make_num_versions_internal(words[1:])]]
-
-    num_token = tokens_config[w]
+    num_token = tokens_config[words[0]]
     if num_token['type'] == 'self':
         num = num_token['num']
         return [[num] + v for v in make_num_versions_internal(words[1:])]
@@ -92,7 +89,7 @@ def make_num_greedy(words):
 
 
 def make_num_one_greedy(words, level, depth):
-    if not words or words[0] not in tokens_config or depth == 0 or level == 0:
+    if not words or depth == 0 or level == 0:
         return 0, words
     num_token = tokens_config[words[0]]
     if num_token['level'] > level or num_token['type'] == 'self':
