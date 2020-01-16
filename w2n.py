@@ -39,11 +39,12 @@ tokens_config = {
     "семьсот": {'num': 700, 'type': 'degree', 'level': 3},
     "восемьсот": {'num': 800, 'type': 'degree', 'level': 3},
     "девятьсот": {'num': 900, 'type': 'degree', 'level': 3}
+    # TODO: add 4-level tokens, example for test
 }
 
 
 def make_num(text):
-    words =  filter_tokens(text.split())
+    words = filter_tokens(text.split())
     numbers = []
     while words:
         token = tokens_config[words[0]]
@@ -55,7 +56,7 @@ def make_num(text):
 
 # TODO: add limitation by length or prefix condition
 def make_num_versions(text):
-    words =  filter_tokens(text.split())
+    words = filter_tokens(text.split())
     versions = make_num_versions_internal(words)
     return [''.join([str(num) for num in numbers]) for numbers in versions]
 
