@@ -68,8 +68,7 @@ def make_num(text):
 def make_num_versions(text):
     words = text.split()
     tokens = filter_tokens(weave_double_complex_tokens(words))
-    words = filter_tokens(tokens)
-    versions = make_num_versions_internal(words)
+    versions = make_num_versions_internal(tokens)
     return [''.join([str(num) for num in numbers]) for numbers in versions]
 
 
@@ -81,13 +80,13 @@ def weave_double_complex_tokens(words):
     if not words:
         return words
 
-    pairs = [(two_w, f"{two_w[0]} {two_w[1]}" in tokens_config) for two_w in zip(words, words[1:] + [""])]
-    pair_and_previous_is_complex = [(pair, previous_complex)
-                                    for (pair, previous_complex) in zip(pairs[1:], [complex for (_, complex) in pairs])]
+    words_with_next = [((w, next_w), f"{w} {next_w}" in tokens_config) for (w, next_w) in zip(words, words[1:] + [""])]
+    w_is_complex = [is_complex for (_, is_complex) in words_with_next]
+    words_filtered = [words_with_next[0]] + \
+                     [w_with_next for (w_with_next, previous_is_complex) in zip(words_with_next[1:], w_is_complex)
+                      if not previous_is_complex]
 
-    return [two_words[0] if not is_complex else f"{two_words[0]} {two_words[1]}"
-            for ((two_words, is_complex), previous_is_complex) in [(pairs[0], False)] + pair_and_previous_is_complex
-            if not previous_is_complex]
+    return [w if not is_complex else f"{w} {w_next}" for ((w, w_next), is_complex) in words_filtered]
 
 
 def make_num_versions_internal(words):
