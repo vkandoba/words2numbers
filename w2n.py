@@ -38,17 +38,27 @@ tokens_config = {
     "шестьсот": {'num': 600, 'type': 'degree', 'level': 3},
     "семьсот": {'num': 700, 'type': 'degree', 'level': 3},
     "восемьсот": {'num': 800, 'type': 'degree', 'level': 3},
-    "девятьсот": {'num': 900, 'type': 'degree', 'level': 3}
-    # TODO: add 4-level tokens, example for test
+    "девятьсот": {'num': 900, 'type': 'degree', 'level': 3},
+    "тысяча": {'num': 1000, 'type': 'degree', 'level': 4},
+    "одна тысяча": {'num': 1000, 'type': 'degree', 'level': 4},
+    "две тысячи": {'num': 2000, 'type': 'degree', 'level': 4},
+    "три тысячи": {'num': 3000, 'type': 'degree', 'level': 4},
+    "четыре тысячи": {'num': 4000, 'type': 'degree', 'level': 4},
+    "пять тысяч": {'num': 5000, 'type': 'degree', 'level': 4},
+    "шесть тысяч": {'num': 6000, 'type': 'degree', 'level': 4},
+    "семь тысяч": {'num': 7000, 'type': 'degree', 'level': 4},
+    "восемь тысяч": {'num': 8000, 'type': 'degree', 'level': 4},
+    "девять тысяч": {'num': 9000, 'type': 'degree', 'level': 4}
 }
 
 
 def make_num(text):
-    words = filter_tokens(text.split())
+    words = text.split()
+    tokens = filter_tokens(weave_double_complex_tokens(words))
     numbers = []
-    while words:
-        token = tokens_config[words[0]]
-        num, words = make_num_greedy(words) if token['type'] != 'self' else (token['num'], words[1:])
+    while tokens:
+        token = tokens_config[tokens[0]]
+        num, tokens = make_num_greedy(tokens) if token['type'] != 'self' else (token['num'], tokens[1:])
         numbers.append(num)
 
     return ''.join([str(num) for num in numbers])
@@ -56,13 +66,28 @@ def make_num(text):
 
 # TODO: add limitation by length or prefix condition
 def make_num_versions(text):
-    words = filter_tokens(text.split())
+    words = text.split()
+    tokens = filter_tokens(weave_double_complex_tokens(words))
+    words = filter_tokens(tokens)
     versions = make_num_versions_internal(words)
     return [''.join([str(num) for num in numbers]) for numbers in versions]
 
 
 def filter_tokens(words):
     return [w for w in words if w in tokens_config]
+
+
+def weave_double_complex_tokens(words):
+    if not words:
+        return words
+
+    pairs = [(two_w, f"{two_w[0]} {two_w[1]}" in tokens_config) for two_w in zip(words, words[1:] + [""])]
+    pair_and_previous_is_complex = [(pair, previous_complex)
+                                    for (pair, previous_complex) in zip(pairs[1:], [complex for (_, complex) in pairs])]
+
+    return [two_words[0] if not is_complex else f"{two_words[0]} {two_words[1]}"
+            for ((two_words, is_complex), previous_is_complex) in [(pairs[0], False)] + pair_and_previous_is_complex
+            if not previous_is_complex]
 
 
 def make_num_versions_internal(words):
