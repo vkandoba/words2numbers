@@ -1,6 +1,5 @@
 tokens_config = {
     'ноль': {'num': 0, 'type': 'self', 'level': 1},
-    # TODO: need to add tokens 'double zero' and 'triple zero'
     'один': {'num': 1, 'type': 'final', 'level': 1},
     'одна': {'num': 1, 'type': 'final', 'level': 1},
     'два': {'num': 2, 'type': 'final', 'level': 1},
@@ -48,7 +47,13 @@ tokens_config = {
     "шесть тысяч": {'num': 6000, 'type': 'degree', 'level': 4},
     "семь тысяч": {'num': 7000, 'type': 'degree', 'level': 4},
     "восемь тысяч": {'num': 8000, 'type': 'degree', 'level': 4},
-    "девять тысяч": {'num': 9000, 'type': 'degree', 'level': 4}
+    "девять тысяч": {'num': 9000, 'type': 'degree', 'level': 4},
+    'два ноля': {'num': '00', 'type': 'self', 'level': 1},
+    'два нуля': {'num': '00', 'type': 'self', 'level': 1},
+    'три ноля': {'num': '000', 'type': 'self', 'level': 1},
+    'три нуля': {'num': '000', 'type': 'self', 'level': 1},
+    'две единицы': {'num': '11', 'type': 'self', 'level': 1},
+    'три единицы': {'num': '111', 'type': 'self', 'level': 1}
 }
 
 

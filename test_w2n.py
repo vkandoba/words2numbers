@@ -18,6 +18,9 @@ class TestMakeNumbers(TestCase):
     def test_make_num_with_zero(self):
         self.assertEqual('5000045', make_num('пятьсот ноль ноль четыре пять'))
 
+    def test_make_num_with_double_zero(self):
+        self.assertEqual('5000000111', make_num('пятьсот два ноля два нуля три единицы'))
+
     def test_make_num_with_complex_token(self):
         self.assertEqual('2070', make_num('две тысячи семьдесят'))
         self.assertEqual('20003000', make_num('две тысячи три тысячи'))
