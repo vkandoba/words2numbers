@@ -1,5 +1,5 @@
 from unittest import TestCase
-from w2n import make_num, make_num_greedy, make_num_one_greedy, make_num_versions
+from w2n import make_num, make_num_x, make_num_greedy, make_num_one_greedy, make_num_versions
 
 
 class TestMakeNumbers(TestCase):
@@ -45,6 +45,12 @@ class TestMakeNumbers(TestCase):
         self.assertEqual((1, ['два']), make_num_greedy(['один', 'два']))
         self.assertEqual((200, ['триста']), make_num_greedy(['двести', 'триста']))
         self.assertEqual((200, ['ноль']), make_num_greedy(['двести', 'ноль']))
+
+    def test_make_num_x(self):
+        self.assertEqual('x10603478702',
+                         make_num_x('всего десять шестьсот три четыре семьдесят восемь семьсот два'))
+        self.assertEqual('234600x47851',
+                         make_num_x('двадцать три сорок шесть два ноля на четыре семьдесят восемь пятьдесят один'))
 
 
 class TestMakeNumVersions(TestCase):

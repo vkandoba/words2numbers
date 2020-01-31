@@ -69,6 +69,22 @@ def make_num(text):
     return ''.join([str(num) for num in numbers])
 
 
+def make_num_x(text):
+    words = text.split()
+    tokens = weave_double_complex_tokens(words)
+    numbers = []
+    while tokens:
+        if tokens[0] not in tokens_config:
+            numbers.append('x')
+            tokens = tokens[1:]
+        else:
+            token = tokens_config[tokens[0]]
+            num, tokens = make_num_greedy(tokens) if token['type'] != 'self' else (token['num'], tokens[1:])
+            numbers.append(num)
+
+    return ''.join([str(num) for num in numbers])
+
+
 # TODO: add limitation by length or prefix condition
 def make_num_versions(text):
     words = text.split()
